@@ -5,16 +5,16 @@ provider "aws" {
 data "aws_availability_zones" "available" {}
 
 locals {
-  name    = "dev-mssql" ## Atualize com o nome do database
-  region  = "eu-west-1" ## Atualize com a regiao
+  name   = "dev-mssql" ## Atualize com o nome do database
+  region = "eu-west-1" ## Atualize com a regiao
 
-  vpc_cidr = "10.0.0.0/16" ## Atualize com o CIDR da VPC
-  vpc_id = "vpc-71568808" ## Atualize o VPC ID
+  vpc_cidr   = "10.0.0.0/16"                                             ## Atualize com o CIDR da VPC
+  vpc_id     = "vpc-71568808"                                            ## Atualize o VPC ID
   subnet_ids = ["subnet-f63b3090", "subnet-0a7a6042", "subnet-d71a4e8d"] ## Atualize com as subnets Ids
 
   tags = {
-    Name       = local.name
-    Ambiente    = "dev"
+    Name     = local.name
+    Ambiente = "dev"
   }
 }
 
@@ -51,7 +51,7 @@ module "db" {
 
   maintenance_window              = "Mon:00:00-Mon:03:00"
   backup_window                   = "03:00-06:00"
-  enabled_cloudwatch_logs_exports = ["error","agent"]
+  enabled_cloudwatch_logs_exports = ["error", "agent"]
   create_cloudwatch_log_group     = true
 
   backup_retention_period = 7
@@ -104,10 +104,10 @@ module "security_group" {
   # egress
   egress_with_cidr_blocks = [
     {
-      from_port                = 0
-      to_port                  = 0
-      protocol                 = -1
-      description              = "Allow outbound communication to Directory Services security group"
+      from_port   = 0
+      to_port     = 0
+      protocol    = -1
+      description = "Allow outbound communication to Directory Services security group"
       cidr_blocks = "0.0.0.0/0"
     },
   ]
