@@ -2,8 +2,6 @@ provider "aws" {
   region = local.region
 }
 
-data "aws_availability_zones" "available" {}
-
 locals {
   name   = "dev-mssql" ## Atualize com o nome do database
   region = "eu-west-1" ## Atualize com a regiao
@@ -40,7 +38,7 @@ module "db" {
   # Encryption at rest
   storage_encrypted = true
 
-  username = "complete_mssql"
+  username = "admin"
   port     = 1433
 
   # domain               = aws_directory_service_directory.demo.id
@@ -87,7 +85,7 @@ module "security_group" {
   version = "~> 4.0"
 
   name        = local.name
-  description = "Complete SqlServer example security group"
+  description = "SqlServer security group"
   vpc_id      = local.vpc_id
 
   # ingress
