@@ -243,7 +243,6 @@ resource "aws_vpc" "vpc_prod" {
   }
 }
 
-
 ## VPC Peering
 
 resource "aws_vpc_peering_connection" "vpc_peering" {

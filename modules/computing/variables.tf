@@ -4,6 +4,6 @@ variable "vpc_hml_default_security_group" {
 }
 
 variable "private_subnet_hlm_2" { 
-  description = "Determines the security group for the instance"
+  description = "Determines the subnet instance"
   type        = string
 }
