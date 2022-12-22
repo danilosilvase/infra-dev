@@ -1,6 +1,6 @@
 provider "aws" {
-  region = local.region
-  profile                 = "delbank"
+  region  = local.region
+  profile = "delbank"
 }
 
 locals {
@@ -24,126 +24,152 @@ locals {
 
 ## SV-APP-HOMOLOG
 resource "aws_instance" "AppServerHml" {
-    ami                                  = "ami-0e3f439cc5945f32b"
-    associate_public_ip_address          = true
-    availability_zone                    = "us-east-1a"
-    cpu_core_count                       = 2
-    cpu_threads_per_core                 = 2
-    disable_api_stop                     = false
-    disable_api_termination              = true
-    ebs_optimized                        = true
-    get_password_data                    = false
-    hibernation                          = false
-    instance_initiated_shutdown_behavior = "stop"
-    instance_type                        = "t3a.xlarge"
-    key_name                             = "winaws"
-    monitoring                           = false
-    source_dest_check                    = true
-    subnet_id                            = "subnet-04469abdf4bd373a4"
-    tags                                 = {
-        "Name" = "SV-APP-HOMOLOG"
-    }
-    tags_all                             = {
-        "Name" = "SV-APP-HOMOLOG"
-    }
-    tenancy                              = "default"
-    vpc_security_group_ids               = [
-        "sg-08f56b25ac57ca730",
-    ]
+  ami                                  = "ami-0e3f439cc5945f32b"
+  associate_public_ip_address          = true
+  availability_zone                    = "us-east-1a"
+  cpu_core_count                       = 2
+  cpu_threads_per_core                 = 2
+  disable_api_stop                     = false
+  disable_api_termination              = true
+  ebs_optimized                        = true
+  get_password_data                    = false
+  hibernation                          = false
+  instance_initiated_shutdown_behavior = "stop"
+  instance_type                        = "t3a.xlarge"
+  key_name                             = "winaws"
+  monitoring                           = false
+  source_dest_check                    = true
+  subnet_id                            = "subnet-04469abdf4bd373a4"
+  tags = {
+    "Name" = "SV-APP-HOMOLOG"
+  }
+  tags_all = {
+    "Name" = "SV-APP-HOMOLOG"
+  }
+  tenancy = "default"
+  vpc_security_group_ids = [
+    "sg-08f56b25ac57ca730",
+  ]
 
-    capacity_reservation_specification {
-        capacity_reservation_preference = "open"
-    }
+  capacity_reservation_specification {
+    capacity_reservation_preference = "open"
+  }
 
-    credit_specification {
-        cpu_credits = "standard"
-    }
+  credit_specification {
+    cpu_credits = "standard"
+  }
 
-    enclave_options {
-        enabled = false
-    }
+  enclave_options {
+    enabled = false
+  }
 
-    maintenance_options {
-        auto_recovery = "default"
-    }
+  maintenance_options {
+    auto_recovery = "default"
+  }
 
-    metadata_options {
-        http_endpoint               = "enabled"
-        http_put_response_hop_limit = 1
-        http_tokens                 = "optional"
-    }
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_put_response_hop_limit = 1
+    http_tokens                 = "optional"
+  }
 
-    private_dns_name_options {}
+  private_dns_name_options {}
 
-    root_block_device {
-        delete_on_termination = false
-        encrypted             = false
-        iops                  = 180
-        tags                  = {
-            "Name" = "SV-APP-HOMOLOG"
-        }
-        throughput            = 0
-        volume_size           = 60
-        volume_type           = "gp2"
+  root_block_device {
+    delete_on_termination = false
+    encrypted             = false
+    iops                  = 180
+    tags = {
+      "Name" = "SV-APP-HOMOLOG"
     }
+    throughput  = 0
+    volume_size = 60
+    volume_type = "gp2"
+  }
 }
 
 # ################################################################################
 # # Networking
 # ################################################################################
 resource "aws_vpc" "vpc_hml" {
-    assign_generated_ipv6_cidr_block     = true
-    cidr_block                           = "10.2.0.0/16"
-    enable_dns_hostnames                 = true
-    enable_dns_support                   = true
-    enable_network_address_usage_metrics = false
-    instance_tenancy                     = "default"
-    tags                                 = {
-        "Name" = "delcred-vpc-homolog"
-    }
-    tags_all                             = {
-        "Name" = "delcred-vpc-homolog"
-    }
+  assign_generated_ipv6_cidr_block     = true
+  cidr_block                           = "10.2.0.0/16"
+  enable_dns_hostnames                 = true
+  enable_dns_support                   = true
+  enable_network_address_usage_metrics = false
+  instance_tenancy                     = "default"
+  tags = {
+    "Name" = "delcred-vpc-homolog"
+  }
+  tags_all = {
+    "Name" = "delcred-vpc-homolog"
+  }
 }
 
 resource "aws_subnet" "public_subnet_hlm_1" {
-  vpc_id = aws_vpc.vpc_hml.id
-  cidr_block                                     = "10.2.4.0/24"
-    availability_zone                              = "us-east-1b"
-    map_public_ip_on_launch                        = true
-    tags                                           = {
-        "Name" = "subnet-application-homolog_4-publica"
-    }
-    tags_all                                       = {
-        "Name" = "subnet-application-homolog_4-publica"
-    }
+  vpc_id                  = aws_vpc.vpc_hml.id
+  cidr_block              = "10.2.4.0/24"
+  availability_zone       = "us-east-1b"
+  map_public_ip_on_launch = true
+  tags = {
+    "Name" = "subnet-application-homolog_4-publica"
+  }
+  tags_all = {
+    "Name" = "subnet-application-homolog_4-publica"
+  }
 }
 
 resource "aws_subnet" "public_subnet_hlm_2" {
-  vpc_id = aws_vpc.vpc_hml.id
-  assign_ipv6_address_on_creation                = false
-  availability_zone                              = "us-east-1a"
-  cidr_block                                     = "10.2.5.0/24"
-  enable_dns64                                   = false
-  map_public_ip_on_launch                        = true
-  tags                                           = {
-      "Name" = "subnet-application-homolog_5-publica"
+  vpc_id                          = aws_vpc.vpc_hml.id
+  assign_ipv6_address_on_creation = false
+  availability_zone               = "us-east-1a"
+  cidr_block                      = "10.2.5.0/24"
+  enable_dns64                    = false
+  map_public_ip_on_launch         = true
+  tags = {
+    "Name" = "subnet-application-homolog_5-publica"
   }
-  tags_all                                       = {
-      "Name" = "subnet-application-homolog_5-publica"
+  tags_all = {
+    "Name" = "subnet-application-homolog_5-publica"
   }
 }
 
 resource "aws_subnet" "private_subnet_hlm_1" {
-  vpc_id = aws_vpc.vpc_hml.id
+  vpc_id                  = aws_vpc.vpc_hml.id
+  availability_zone       = "us-east-1a"
+  cidr_block              = "10.2.1.0/24"
+  map_public_ip_on_launch = false
+  tags = {
+    "Name" = "subnet-database-homolog_1-privado"
+  }
+  tags_all = {
+    "Name" = "subnet-database-homolog_1-privado"
+  }
+}
+
+resource "aws_subnet" "private_subnet_hlm_2" {
+  vpc_id     = aws_vpc.vpc_hml.id
     availability_zone                              = "us-east-1a"
-    cidr_block                                     = "10.2.1.0/24"
+    cidr_block                                     = "10.2.2.0/24"
     map_public_ip_on_launch                        = false
     tags                                           = {
-        "Name" = "subnet-database-homolog_1-privado"
+        "Name" = "subnet-application-homolog_2-privado"
     }
     tags_all                                       = {
-        "Name" = "subnet-database-homolog_1-privado"
+        "Name" = "subnet-application-homolog_2-privado"
+    }
+}
+
+resource "aws_subnet" "private_subnet_hlm_3" {
+  vpc_id     = aws_vpc.vpc_hml.id
+    availability_zone                              = "us-east-1b"
+    cidr_block                                     = "10.2.3.0/24"
+    map_public_ip_on_launch                        = false
+    tags                                           = {
+        "Name" = "subnet-application-homolog_3-privado"
+    }
+    tags_all                                       = {
+        "Name" = "subnet-application-homolog_3-privado"
     }
 }
 
