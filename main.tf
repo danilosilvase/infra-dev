@@ -86,39 +86,66 @@ resource "aws_instance" "AppServerHml" {
         volume_size           = 60
         volume_type           = "gp2"
     }
-
-    timeouts {}
 }
 
 # ################################################################################
 # # Networking
 # ################################################################################
-# resource "aws_vpc" "vpc" {
-#   # (resource arguments)
-# }
+resource "aws_vpc" "vpc_hml" {
+    assign_generated_ipv6_cidr_block     = true
+    cidr_block                           = "10.2.0.0/16"
+    enable_dns_hostnames                 = true
+    enable_dns_support                   = true
+    enable_network_address_usage_metrics = false
+    instance_tenancy                     = "default"
+    tags                                 = {
+        "Name" = "delcred-vpc-homolog"
+    }
+    tags_all                             = {
+        "Name" = "delcred-vpc-homolog"
+    }
+}
 
-# resource "aws_subnet" "PublicSubnetA" {
-#   vpc_id = aws_vpc.vpc.id
-#   cidr_block                                     = "10.0.0.0/20"
-# }
+resource "aws_subnet" "public_subnet_hlm_1" {
+  vpc_id = aws_vpc.vpc_hml.id
+  cidr_block                                     = "10.2.4.0/24"
+    availability_zone                              = "us-east-1b"
+    map_public_ip_on_launch                        = true
+    tags                                           = {
+        "Name" = "subnet-application-homolog_4-publica"
+    }
+    tags_all                                       = {
+        "Name" = "subnet-application-homolog_4-publica"
+    }
+}
 
-# resource "aws_subnet" "PublicSubnetB" {
-#   # (resource arguments)
-#   vpc_id = aws_vpc.vpc.id
-#   cidr_block                                     = "10.0.16.0/20"
-# }
+resource "aws_subnet" "public_subnet_hlm_2" {
+  vpc_id = aws_vpc.vpc_hml.id
+  assign_ipv6_address_on_creation                = false
+  availability_zone                              = "us-east-1a"
+  cidr_block                                     = "10.2.5.0/24"
+  enable_dns64                                   = false
+  map_public_ip_on_launch                        = true
+  tags                                           = {
+      "Name" = "subnet-application-homolog_5-publica"
+  }
+  tags_all                                       = {
+      "Name" = "subnet-application-homolog_5-publica"
+  }
+}
 
-# resource "aws_subnet" "PrivateSubnetA" {
-#   # (resource arguments)
-#   vpc_id = aws_vpc.vpc.id
-#   cidr_block                                     = "10.0.128.0/20"
-# }
-
-# resource "aws_subnet" "PrivateSubnetB" {
-#   # (resource arguments)
-#   vpc_id = aws_vpc.vpc.id
-#   cidr_block                                     = "10.0.144.0/20"
-# }
+resource "aws_subnet" "private_subnet_hlm_1" {
+  vpc_id = aws_vpc.vpc_hml.id
+    availability_zone                              = "us-east-1a"
+    cidr_block                                     = "10.2.1.0/24"
+    map_public_ip_on_launch                        = false
+    tags                                           = {
+        "Name" = "subnet-database-homolog_1-privado"
+    }
+    tags_all                                       = {
+        "Name" = "subnet-database-homolog_1-privado"
+    }
+}
 
 # ################################################################################
 # # RDS Module
