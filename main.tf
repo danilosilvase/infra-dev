@@ -25,99 +25,129 @@ resource "aws_instance" "appserver8080" {
   instance_type = "t2.micro"
 }
 
-# ################################################################################
-# # RDS Module
-# ################################################################################
+################################################################################
+# Networking
+################################################################################
+resource "aws_vpc" "vpc" {
+  # (resource arguments)
+}
 
-# module "db" {
-#   source  = "terraform-aws-modules/rds/aws"
-#   version = "5.2.2"
+resource "aws_subnet" "PublicSubnetA" {
+  vpc_id = aws_vpc.vpc.id
+  cidr_block                                     = "10.0.0.0/20"
+}
 
-#   identifier = local.name
+resource "aws_subnet" "PublicSubnetB" {
+  # (resource arguments)
+  vpc_id = aws_vpc.vpc.id
+  cidr_block                                     = "10.0.16.0/20"
+}
 
-#   engine               = "sqlserver-se"
-#   engine_version       = "15.00"
-#   family               = "sqlserver-se-15.0" # DB parameter group
-#   major_engine_version = "15.00"             # DB option group
-#   instance_class       = "db.t3.xlarge"
+resource "aws_subnet" "PrivateSubnetA" {
+  # (resource arguments)
+  vpc_id = aws_vpc.vpc.id
+  cidr_block                                     = "10.0.128.0/20"
+}
 
-#   allocated_storage     = 100
-#   max_allocated_storage = 200
+resource "aws_subnet" "PrivateSubnetB" {
+  # (resource arguments)
+  vpc_id = aws_vpc.vpc.id
+  cidr_block                                     = "10.0.144.0/20"
+}
 
-#   # Encryption at rest
-#   storage_encrypted = true
+################################################################################
+# RDS Module
+################################################################################
 
-#   username = "admin"
-#   port     = 1433
+module "db" {
+  source  = "terraform-aws-modules/rds/aws"
+  version = "5.2.2"
 
-#   # domain               = aws_directory_service_directory.demo.id
-#   # domain_iam_role_name = aws_iam_role.rds_ad_auth.name
+  identifier = local.name
 
-#   multi_az               = false
-#   vpc_security_group_ids = [module.security_group.security_group_id]
+  engine               = "sqlserver-se"
+  engine_version       = "15.00"
+  family               = "sqlserver-se-15.0" # DB parameter group
+  major_engine_version = "15.00"             # DB option group
+  instance_class       = "db.t3.xlarge"
 
-#   maintenance_window              = "Mon:00:00-Mon:03:00"
-#   backup_window                   = "03:00-06:00"
-#   enabled_cloudwatch_logs_exports = ["error", "agent"]
-#   create_cloudwatch_log_group     = true
+  allocated_storage     = 100
+  max_allocated_storage = 200
 
-#   backup_retention_period = 7
-#   skip_final_snapshot     = true
-#   deletion_protection     = true
+  # Encryption at rest
+  storage_encrypted = true
 
-#   performance_insights_enabled          = false
-#   performance_insights_retention_period = 7
-#   create_monitoring_role                = true
-#   monitoring_interval                   = 60
+  username = "admin"
+  port     = 1433
 
-#   options                   = []
-#   create_db_parameter_group = false
-#   license_model             = "license-included"
-#   timezone                  = "GMT Standard Time"
-#   character_set_name        = "Latin1_General_CI_AS"
+  # domain               = aws_directory_service_directory.demo.id
+  # domain_iam_role_name = aws_iam_role.rds_ad_auth.name
 
-#   tags = local.tags
+  multi_az               = false
+  vpc_security_group_ids = [module.security_group.security_group_id]
 
-#   # DB subnet group
-#   create_db_subnet_group = true
-#   subnet_ids             = local.subnet_ids
+  maintenance_window              = "Mon:00:00-Mon:03:00"
+  backup_window                   = "03:00-06:00"
+  enabled_cloudwatch_logs_exports = ["error", "agent"]
+  create_cloudwatch_log_group     = true
 
-# }
+  backup_retention_period = 7
+  skip_final_snapshot     = true
+  deletion_protection     = true
 
-# ################################################################################
-# # Supporting Resources
-# ################################################################################
+  performance_insights_enabled          = false
+  performance_insights_retention_period = 7
+  create_monitoring_role                = true
+  monitoring_interval                   = 60
 
-# # Security Group
-# module "security_group" {
-#   source  = "terraform-aws-modules/security-group/aws"
-#   version = "~> 4.0"
+  options                   = []
+  create_db_parameter_group = false
+  license_model             = "license-included"
+  timezone                  = "GMT Standard Time"
+  character_set_name        = "Latin1_General_CI_AS"
 
-#   name        = local.name
-#   description = "SqlServer security group"
-#   vpc_id      = local.vpc_id
+  tags = local.tags
 
-#   # ingress
-#   ingress_with_cidr_blocks = [
-#     {
-#       from_port   = 1433
-#       to_port     = 1433
-#       protocol    = "tcp"
-#       description = "SqlServer access from within VPC"
-#       cidr_blocks = "0.0.0.0/0,10.1.1.0/32"
-#     },
-#   ]
+  # DB subnet group
+  create_db_subnet_group = true
+  subnet_ids             = local.subnet_ids
 
-#   # egress
-#   egress_with_cidr_blocks = [
-#     {
-#       from_port   = 0
-#       to_port     = 0
-#       protocol    = -1
-#       description = "Allow outbound communication to Directory Services security group"
-#       cidr_blocks = "0.0.0.0/0"
-#     },
-#   ]
+}
 
-#   tags = local.tags
-# }
+################################################################################
+# Supporting Resources
+################################################################################
+
+# Security Group
+module "security_group" {
+  source  = "terraform-aws-modules/security-group/aws"
+  version = "~> 4.0"
+
+  name        = local.name
+  description = "SqlServer security group"
+  vpc_id      = local.vpc_id
+
+  # ingress
+  ingress_with_cidr_blocks = [
+    {
+      from_port   = 1433
+      to_port     = 1433
+      protocol    = "tcp"
+      description = "SqlServer access from within VPC"
+      cidr_blocks = "0.0.0.0/0,10.1.1.0/32"
+    },
+  ]
+
+  # egress
+  egress_with_cidr_blocks = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = -1
+      description = "Allow outbound communication to Directory Services security group"
+      cidr_blocks = "0.0.0.0/0"
+    },
+  ]
+
+  tags = local.tags
+}
