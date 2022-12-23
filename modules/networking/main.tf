@@ -1,3 +1,16 @@
+provider "aws" {
+  region  = local.region
+}
+
+locals {
+  name   = "delbank-infra" ## Atualize com o nome do ambiente
+  region = "us-east-2"     ## Atualize com a regiao
+  tags = {
+    Name     = local.name
+    Ambiente = "dev"
+  }
+}
+
 ## VPC - HML
 resource "aws_vpc" "vpc_hml" {
   assign_generated_ipv6_cidr_block     = true

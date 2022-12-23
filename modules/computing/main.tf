@@ -14,7 +14,7 @@ resource "aws_instance" "app-server-hml" {
   instance_type                        = "t3a.xlarge"
   key_name                             = "winaws"
   monitoring                           = false
-  source_dest_check                    = true
+  source_dest_check                    = false
   subnet_id                            = var.private_subnet_hlm_2
   tags = {
     "Name" = "SV-APP-HOMOLOG"

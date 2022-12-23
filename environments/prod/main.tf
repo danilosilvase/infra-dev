@@ -8,7 +8,7 @@ locals {
   region = "us-east-1"     ## Atualize com a regiao
   tags = {
     Name     = local.name
-    Ambiente = "dev"
+    Ambiente = "prod"
   }
 }
 
@@ -34,8 +34,12 @@ module "networking" {
 # # RDS Module
 # ################################################################################
 
-module "computing" {
-  source                         = "../../modules/computing"
-  vpc_hml_default_security_group = module.networking.vpc_hml_default_security_group
-  private_subnet_hlm_2           = module.networking.private_subnet_hlm_2
+module "database" {
+  source                   = "../../modules/database"
+  vpc_id                   = module.networking.vpc_id_hml
+  subnet_ids               = module.networking.private_subnets_list
+  name                     = "sv-db-prod"
+  password                 = var.password
+  db_subnet_group_name     = "grupo  de sub-redes rds db prod"
+  create_subnet_group_name = false
 }
