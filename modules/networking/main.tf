@@ -246,8 +246,8 @@ resource "aws_vpc" "vpc_prod" {
 ## VPC Peering
 
 resource "aws_vpc_peering_connection" "vpc_peering" {
-  peer_vpc_id   = aws_vpc.vpc_hml.id
-  auto_accept   = true
+  peer_vpc_id = aws_vpc.vpc_hml.id
+  auto_accept = true
   tags = {
     "Name" = "vpc-peering-delcred"
   }

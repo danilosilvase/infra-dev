@@ -13,7 +13,12 @@ output "vpc_id_hml" {
   value       = aws_vpc.vpc_hml.id
 }
 
-output "subnet_ids_hml" {
-  description = "The Subnets Ids for HML VPC"
-  value       = [aws_subnet.private_subnet_hml_1.id, aws_subnet.private_subnet_hml_2.id]
+# output "subnet_ids_hml" {
+#   description = "The Subnets Ids for HML VPC"
+#   value       = [aws_subnet.private_subnet_hml_1.id, aws_subnet.private_subnet_hml_2.id]
+# }
+
+output "private_subnets_list" {
+  description = "The list of private subnets"
+  value       = [aws_subnet.private_subnet_hml_1.id, aws_subnet.private_subnet_hml_2.id, aws_subnet.private_subnet_hml_3.id]
 }
