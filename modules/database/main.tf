@@ -1,20 +1,3 @@
-# provider "aws" {
-#   region = local.region
-#   #   profile = "delbank"
-# }
-
-# locals {
-
-#   region = "us-east-1" ## Atualize com a regiao
-#   tags = {
-#     Name     = local.name
-#     Ambiente = "dev"
-#   }
-#   name = var.name
-#   #   name_prefix = var.use_name_prefix ? "${var.name}-" : null
-
-#   #   description = coalesce(var.description, format("%s subnet group", var.name))
-# }
 
 # Ref. https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces
 data "aws_partition" "current" {}
