@@ -14,11 +14,11 @@ variable "vpc_id" {
   description = "value"
 }
 
-variable "password" {
-  type        = string
-  description = "value"
-  sensitive   = true
-}
+# variable "password" {
+#   type        = string
+#   description = "value"
+#   sensitive   = true
+# }
 
 variable "instance_class" {
   type        = string
