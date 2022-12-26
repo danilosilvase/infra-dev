@@ -1,12 +1,17 @@
 
 ## Usage
 
-Configure the Credentials
+Configure AWS Credentials
 
 ```bash
 $ export AWS_ACCESS_KEY_ID="anaccesskey"
 $ export AWS_SECRET_ACCESS_KEY="asecretkey"
 $ export AWS_REGION="us-west-2"
+```
+
+Go to Environmentm for example HML 
+```bash
+cd environments/
 ```
 
 To run this example you need to execute:
