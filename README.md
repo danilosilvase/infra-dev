@@ -11,7 +11,7 @@ $ export AWS_REGION="us-west-2"
 
 Go to Environmentm for example HML 
 ```bash
-cd environments/
+cd environments/hlm
 ```
 
 To run this example you need to execute:
