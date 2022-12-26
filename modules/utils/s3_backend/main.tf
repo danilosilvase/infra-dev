@@ -15,7 +15,6 @@ locals {
 ## Provider
 provider "aws" {
   region  = local.region
-  profile = "delbank"
 }
 
 
