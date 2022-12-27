@@ -4,7 +4,7 @@ provider "aws" {
 
 locals {
   name   = "delbank-infra" ## Atualize com o nome do ambiente
-  region = "us-east-2"     ## Atualize com a regiao
+  region = "us-east-1"     ## Atualize com a regiao
   tags = {
     Name     = local.name
     Ambiente = "dev"

@@ -10,11 +10,10 @@ resource "aws_instance" "app-server-hml" {
   ebs_optimized                        = true
   get_password_data                    = false
   hibernation                          = false
-  instance_initiated_shutdown_behavior = "stop"
   instance_type                        = "t3a.xlarge"
   key_name                             = "winaws"
   monitoring                           = false
-  source_dest_check                    = false
+  source_dest_check                    = true
   subnet_id                            = var.private_subnet_hlm_2
   tags = {
     "Name" = "SV-APP-HOMOLOG"
