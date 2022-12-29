@@ -31,9 +31,8 @@ resource "aws_db_instance" "database_hml" {
   license_model                         = "license-included"
   maintenance_window                    = "sat:00:00-sat:00:30"
   max_allocated_storage                 = 200
-  monitoring_interval                   = 60
-#  monitoring_role_arn                   = ""
-#  monitoring_role_arn                   = aws_iam_role.enhanced_monitoring[0].arn
+  # monitoring_interval                   = 60
+  # monitoring_role_arn                   = aws_iam_role.enhanced_monitoring[0].arn ## Se descomentar esta linha, tambem descomente
   multi_az                              = false
   network_type                          = "IPV4"
   option_group_name                     = "serverdb"
