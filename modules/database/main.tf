@@ -5,6 +5,7 @@ data "aws_partition" "current" {}
 ## Database HML
 
 resource "aws_db_instance" "database_hml" {
+  apply_immediately          = true
   allocated_storage          = var.allocated_storage
   auto_minor_version_upgrade = false
   backup_retention_period    = 7
@@ -13,7 +14,8 @@ resource "aws_db_instance" "database_hml" {
   character_set_name         = "SQL_Latin1_General_CP1_CI_AS"
   copy_tags_to_snapshot      = true
   customer_owned_ip_enabled  = false
-  db_subnet_group_name       = var.create_subnet_group_name ? aws_db_subnet_group.this.name : var.db_subnet_group_name
+  db_subnet_group_name       = "grupo  de sub-redes rds db prod"
+# db_subnet_group_name       = var.create_subnet_group_name ? aws_db_subnet_group.this.name : var.db_subnet_group_name
   delete_automated_backups   = true
   deletion_protection        = true
   enabled_cloudwatch_logs_exports = [
@@ -30,10 +32,11 @@ resource "aws_db_instance" "database_hml" {
   maintenance_window                    = "sat:00:00-sat:00:30"
   max_allocated_storage                 = 200
   monitoring_interval                   = 60
-  monitoring_role_arn                   = aws_iam_role.enhanced_monitoring[0].arn
+#  monitoring_role_arn                   = ""
+#  monitoring_role_arn                   = aws_iam_role.enhanced_monitoring[0].arn
   multi_az                              = false
   network_type                          = "IPV4"
-  option_group_name                     = "default:sqlserver-se-15-00"
+  option_group_name                     = "serverdb"
   parameter_group_name                  = "default.sqlserver-se-15.0"
   performance_insights_enabled          = false
   performance_insights_retention_period = 0
