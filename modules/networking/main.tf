@@ -27,32 +27,32 @@ resource "aws_vpc" "vpc_hml" {
   }
 }
 
-## Subnets HML
-resource "aws_subnet" "public_subnet_hml_1" {
-  vpc_id                  = aws_vpc.vpc_hml.id
-  cidr_block              = "10.2.4.0/24"
-  map_public_ip_on_launch = true
-  tags = {
-    "Name" = "subnet-application-homolog_4-publica"
-  }
-  tags_all = {
-    "Name" = "subnet-application-homolog_4-publica"
-  }
-}
+# ## Subnets HML
+# resource "aws_subnet" "public_subnet_hml_1" {
+#   vpc_id                  = aws_vpc.vpc_hml.id
+#   cidr_block              = "10.2.4.0/24"
+#   map_public_ip_on_launch = true
+#   tags = {
+#     "Name" = "subnet-application-homolog_4-publica"
+#   }
+#   tags_all = {
+#     "Name" = "subnet-application-homolog_4-publica"
+#   }
+# }
 
-resource "aws_subnet" "public_subnet_hml_2" {
-  vpc_id                          = aws_vpc.vpc_hml.id
-  assign_ipv6_address_on_creation = false
-  cidr_block                      = "10.2.5.0/24"
-  enable_dns64                    = false
-  map_public_ip_on_launch         = true
-  tags = {
-    "Name" = "subnet-application-homolog_5-publica"
-  }
-  tags_all = {
-    "Name" = "subnet-application-homolog_5-publica"
-  }
-}
+# resource "aws_subnet" "public_subnet_hml_2" {
+#   vpc_id                          = aws_vpc.vpc_hml.id
+#   assign_ipv6_address_on_creation = false
+#   cidr_block                      = "10.2.5.0/24"
+#   enable_dns64                    = false
+#   map_public_ip_on_launch         = true
+#   tags = {
+#     "Name" = "subnet-application-homolog_5-publica"
+#   }
+#   tags_all = {
+#     "Name" = "subnet-application-homolog_5-publica"
+#   }
+# }
 
 resource "aws_subnet" "private_subnet_hml_1" {
   vpc_id                  = aws_vpc.vpc_hml.id
@@ -256,24 +256,24 @@ resource "aws_vpc" "vpc_prod" {
   }
 }
 
-## VPC Peering
+# ## VPC Peering
 
-resource "aws_vpc_peering_connection" "vpc_peering" {
-  peer_vpc_id = aws_vpc.vpc_hml.id
-  auto_accept = true
-  tags = {
-    "Name" = "vpc-peering-delcred"
-  }
-  tags_all = {
-    "Name" = "vpc-peering-delcred"
-  }
-  vpc_id = aws_vpc.vpc_prod.id
+# resource "aws_vpc_peering_connection" "vpc_peering" {
+#   peer_vpc_id = aws_vpc.vpc_hml.id
+#   auto_accept = true
+#   tags = {
+#     "Name" = "vpc-peering-delcred"
+#   }
+#   tags_all = {
+#     "Name" = "vpc-peering-delcred"
+#   }
+#   vpc_id = aws_vpc.vpc_prod.id
 
-  accepter {
-    allow_remote_vpc_dns_resolution = false
-  }
+#   accepter {
+#     allow_remote_vpc_dns_resolution = false
+#   }
 
-  requester {
-    allow_remote_vpc_dns_resolution = false
-  }
-}
+#   requester {
+#     allow_remote_vpc_dns_resolution = false
+#   }
+# }

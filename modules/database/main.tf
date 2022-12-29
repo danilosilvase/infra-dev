@@ -53,34 +53,34 @@ resource "aws_db_instance" "database_hml" {
   # ]
 }
 
-resource "aws_db_subnet_group" "this" {
-  name       = var.name
-  subnet_ids = var.subnet_ids
-}
+# resource "aws_db_subnet_group" "this" {
+#   name       = var.name
+#   subnet_ids = var.subnet_ids
+# }
 
 ################################################################################
 # Enhanced monitoring
 ################################################################################
 
-data "aws_iam_policy_document" "enhanced_monitoring" {
-  statement {
-    actions = [
-      "sts:AssumeRole",
-    ]
+# data "aws_iam_policy_document" "enhanced_monitoring" {
+#   statement {
+#     actions = [
+#       "sts:AssumeRole",
+#     ]
 
-    principals {
-      type        = "Service"
-      identifiers = ["monitoring.rds.amazonaws.com"]
-    }
-  }
-}
+#     principals {
+#       type        = "Service"
+#       identifiers = ["monitoring.rds.amazonaws.com"]
+#     }
+#   }
+# }
 
-resource "aws_iam_role" "enhanced_monitoring" {
-  count              = 1
-  assume_role_policy = data.aws_iam_policy_document.enhanced_monitoring.json
-}
+# resource "aws_iam_role" "enhanced_monitoring" {
+#   count              = 1
+#   assume_role_policy = data.aws_iam_policy_document.enhanced_monitoring.json
+# }
 
-resource "aws_iam_role_policy_attachment" "enhanced_monitoring" {
-  role       = aws_iam_role.enhanced_monitoring[0].name
-  policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
-}
+# resource "aws_iam_role_policy_attachment" "enhanced_monitoring" {
+#   role       = aws_iam_role.enhanced_monitoring[0].name
+#   policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
+# }
